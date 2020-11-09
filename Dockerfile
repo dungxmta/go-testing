@@ -24,8 +24,9 @@ RUN mkdir -p cov
 
 # ; exit 0 to make sure docker not RUN fail when test FAIL
 # otherwise docker will exit right away
-RUN go test ./... -coverprofile=cov/cp.out > cov/cp.log; exit 0
-#RUN go test ./... -coverprofile=cov/cp.out > cov/cp.log
+RUN go test ./... -coverprofile=cov/cp.out 2>&1 > cov/cp.log || echo "There were failing tests!"
+#RUN go test ./... -coverprofile=cov/cp.out > cov/cp.log; exit 0       # ok
+#RUN go test ./... -coverprofile=cov/cp.out > cov/cp.log               # not work!
 RUN go tool cover -func=cov/cp.out -o cov/coverage.out
 
 #
